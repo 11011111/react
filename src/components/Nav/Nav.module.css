@@ -1,0 +1,17 @@
+.nav{
+    background-color: #dbdbdb;
+    grid-area: n;
+}
+.nav ul{
+    list-style: none;
+}
+.item a{
+    color: black;
+    text-decoration: none;
+}
+.item a:hover{
+    color: #bd2323;
+}
+.item a.activeLink{
+    color: #bd2323;
+}
