@@ -1,7 +1,7 @@
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const ADD_MESS = 'ADD-MESSAGE';
-const UPDATE_TEXT_MESSAGE = 'UPDATE-TEXT-MESSAGE';
+import profileReducer from "./profileReducer";
+import sidebarReducer from "./sidebarReducer";
+import dialogsReducer from "./dialogsReducer";
+
 
 let store = {
      _state: {
@@ -25,7 +25,8 @@ let store = {
                     {id: 3, name: 'Zachar'},
                     {id: 4, name: 'Largo'}
                ]
-          }
+          },
+          sidebar: {}
      },
      _callSubscruber() {
           console.log('State changed');
@@ -40,48 +41,17 @@ let store = {
      },
 
      dispatch(action){
-          if ( action.type === ADD_POST ) {
-               let newPost = {
-                    id: 5,
-                    message: this._state.profilePage.newPostText,
-                    likeCount: 0
-               };
+          this._state.profilePage = profileReducer(this._state.profilePage, action);
+          this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+          this._state.sidebar = sidebarReducer(this._state.sidebar, action);
 
-               this._state.profilePage.postData.push(newPost);
-               this._state.profilePage.newPostText = '';
-               this._callSubscruber(this._state);
-
-          } else if ( action.type === UPDATE_NEW_POST_TEXT ) {
-               this._state.profilePage.newPostText = action.newText;
-               console.log(this._state.profilePage.newPostText);
-               this._callSubscruber(this._state);
-
-          } else if ( action.type === ADD_MESS ) {
-               let newMessObj = {
-                    id: 4,
-                    message: this._state.dialogsPage.newMess
-               };
-
-               this._state.dialogsPage.message.push(newMessObj);
-               console.log(this._state.dialogsPage.message);
-               this._state.dialogsPage.newMess = '';
-               this._callSubscruber(this._state);
-
-          } else if ( action.type === UPDATE_TEXT_MESSAGE ) {
-               this._state.dialogsPage.newMess = action.newText;
-               this._callSubscruber(this._state);
-          }
+          this._callSubscruber(this._state);
      }
 
 };
 
-export const addPostActionCreator = () => ({ type: ADD_POST });
-export const updateNewPostTextActionCreator = (text) =>
-    ({ type: UPDATE_NEW_POST_TEXT, newText: text });
 
-export const sendMessageActionCreator = () => ({ type: ADD_MESS });
-export const updateTextMessage = ( text) =>
-    ({ type: UPDATE_TEXT_MESSAGE, newText: text });
+
 
 
 
